@@ -257,6 +257,12 @@ endif
 UEXTRA=
 ifeq ($(LAB),util)
 	UEXTRA += user/xargstest.sh
+	UPROGS += \
+		$U/_sleep \
+		$U/_pingpong \
+		$U/_primes \
+		$U/_find \
+		$U/_xargs
 endif
 
 
