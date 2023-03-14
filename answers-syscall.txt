@@ -1,0 +1,13 @@
+usertrap
+
+SYS_exec
+
+user
+
+lw a3,0
+a3
+
+Load page fault
+
+initcode
+1
