@@ -191,6 +191,10 @@ UPROGS=\
 
 
 
+ifeq ($(LAB),syscall)
+UPROGS += \
+	$U/_trace
+endif
 
 ifeq ($(LAB),$(filter $(LAB), lock))
 UPROGS += \
