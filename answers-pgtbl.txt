@@ -1,0 +1,2 @@
+getpid
+Because pid can get from user sapce directly, without switching to kernel spaces.
