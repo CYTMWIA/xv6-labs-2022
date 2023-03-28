@@ -68,14 +68,15 @@ usertrap(void)
   } else if((which_dev = devintr()) != 0){
     if(which_dev == 2) {
       do {
-        if (p->alarm_state != RUNNABLE)
+        if (!(p->alarm_interval > 0)) // Alarm enabled
           break;
-        if (ticks <= p->alarm_next) {
+        if (!(p->alarm_frame == 0)) // No running handler
+          break;
+        if (p->alarm_next <= ticks) {
           p->alarm_next += p->alarm_interval;
-          p->alarm_frame = *(p->trapframe);
+          p->alarm_frame = (struct trapframe *)kalloc();
+          *(p->alarm_frame) = *(p->trapframe);
           p->trapframe->epc = (uint64)p->alarm_handler;
-          p->alarm_state = RUNNING;
-          p->alarm_state_next = RUNNABLE;
         }
       } while (0);
     }

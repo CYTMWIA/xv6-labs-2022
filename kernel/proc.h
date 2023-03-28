@@ -105,10 +105,8 @@ struct proc {
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
 
-  enum procstate alarm_state;
-  enum procstate alarm_state_next; // state when alarm_handler is done
   void (*alarm_handler)();
   uint alarm_interval;
   uint alarm_next;
-  struct trapframe alarm_frame;
+  struct trapframe *alarm_frame;
 };

@@ -101,21 +101,13 @@ sys_sigalarm(void)
   argint(0, &interval);
   uint64 handler;
   argaddr(1, &handler);
+  if (interval<0 || handler<0)
+    return -1;
 
   struct proc *p = myproc();
-  enum procstate *pstate = &(p->alarm_state);
-  if (p->alarm_state==RUNNING)
-    pstate = &(p->alarm_state_next);
-
-  if (interval==0 && handler==0) {
-    *pstate = UNUSED;
-    return 0;
-  }
-
   p->alarm_interval = interval;
   p->alarm_next = ticks+p->alarm_interval;
   p->alarm_handler = (void (*)())handler;
-  *pstate = RUNNABLE;
   return 0;
 }
 
@@ -123,9 +115,10 @@ uint64
 sys_sigreturn(void)
 {
   struct proc *p = myproc();
-  if (p->alarm_state==RUNNING){
-    *(p->trapframe) = p->alarm_frame;
-    p->alarm_state = p->alarm_state_next;
+  if (p->alarm_frame) {
+    *(p->trapframe) = *(p->alarm_frame);
+    kfree((void*)p->alarm_frame);
+    p->alarm_frame = 0;
   }
   return p->trapframe->a0;
 }
