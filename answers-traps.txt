@@ -1,0 +1,12 @@
+a0,a1,a2; a2
+
+The main function didn't call f or g function.
+
+0x642
+
+38
+
+He110 World
+Change 0x00646c72 to 0x726c6400. No need to change 57616.
+
+Xv6 will take value from a2, which is unspecified.
