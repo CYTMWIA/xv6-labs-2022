@@ -65,6 +65,8 @@ usertrap(void)
     intr_on();
 
     syscall();
+  } else if (15==r_scause() && 0==request_write(p->pagetable, r_stval())) {
+    // Write page fault
   } else if((which_dev = devintr()) != 0){
     // ok
   } else {
